@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<action-controller>
+
+	<!-- 拦截器部分 -->
+	<interceptor>
+		<name>logWriter</name>
+		<class>
+			<name>com.ustc.util.LogWriter</name>
+			<method>log</method>
+		</class>
+	</interceptor>
+	<!-- Other interceptors  -->
+	
+	<!-- Action部分  -->
+	<action>
+		<name>login</name>
+		<class>
+			<name>com.ustc.framework.action.LoginAction</name>
+			<method>login</method>
+		</class>
+		<interceptor-ref>
+			<name>logWriter</name>
+		</interceptor-ref>
+		<result>
+			<name>success</name>
+			<type>forward</type>
+			<value>pages/login_success.jsp</value>
+		</result>
+		<result>
+			<name>fail</name>
+			<type>redirect</type>
+			<value>pages/login_fail.jsp</value>
+		</result>
+	</action>
+	<action>
+		<name>register</name>
+		<class>
+			<name>com.ustc.servlet.RegisterAction</name>
+			<method>register</method>
+		</class>
+		<!-- other results  -->
+	</action>
+	<!-- other results -->
+</action-controller>
