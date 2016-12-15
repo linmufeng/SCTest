@@ -24,12 +24,14 @@
 		<result>
 			<name>success</name>
 			<type>forward</type>
-			<value>pages/login_success.jsp</value>
+			<value>pages/success_view.xml</value>
 		</result>
 		<result>
 			<name>fail</name>
-			<type>redirect</type>
-			<value>pages/login_fail.jsp</value>
+			<type>forward</type>
+			<!-- <value>pages/login_fail.jsp</value> -->
+            <value>pages/success_view.xml</value>
+			
 		</result>
 	</action>
 	<action>
