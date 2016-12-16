@@ -94,9 +94,10 @@ public class LoginController extends HttpServlet {
                     String xmlPath = "/success_view.xml";
                     String xslPath = "http://localhost:8080/SCTest/pages/success_view.xsl";
                     htmlString = xslTransf.getHtmlString(xmlPath, xslPath);
+                    System.out.println("str==" + htmlString); 
                 }
-//                request.getRequestDispatcher(page).forward(request, response);
-                System.out.println("str==" + htmlString); 
+                //通过htmlString生成一个html文件，待实现
+                request.getRequestDispatcher(page).forward(request, response);
             }
         } catch (Exception e) {
             e.printStackTrace();

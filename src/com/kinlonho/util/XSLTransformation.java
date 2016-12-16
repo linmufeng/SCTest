@@ -1,6 +1,6 @@
 package com.kinlonho.util;
 
-import java.io.File;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
 
@@ -8,7 +8,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.tomcat.websocket.Transformation;
 import org.dom4j.Document;
 import org.dom4j.io.DocumentResult;
 import org.dom4j.io.DocumentSource;
@@ -34,19 +33,30 @@ public class XSLTransformation {
      */
     public String getHtmlString(String xmlPath, String xslPath) {
 
+        byte[] buff = new byte[2048];
+        String res = null;
         System.out.println("getHtmlString()开始执行...\n");
-        // 得到解析器
-        SAXReader readerXml = new SAXReader();
-        SAXReader readerXsl = new SAXReader();
 
         try {
+            // 得到解析器
+            SAXReader readerXml = new SAXReader();
             // 得到xml的文件流
             InputStream inStreamXml = this.getClass().getResourceAsStream(xmlPath);
-            System.out.println(xmlPath);
-            System.out.println(xslPath);
+            // System.out.println(xmlPath);
+            // System.out.println(xslPath);
+            // System.out.println(inStreamXml.toString());
+            int len = -1;
+            while (-1 != (len = inStreamXml.read(buff))) {
+                // 将字节数组转换为字符串
+                res = new String(buff, 0, len);
+            }
+
+            System.out.println(res);
+            ByteArrayInputStream bais = new ByteArrayInputStream(res.getBytes());
 
             // 加载xml文件
-            Document docXml = readerXml.read(inStreamXml);
+            // Document docXml = DocumentHelper.parseText(res);
+            Document docXml = readerXml.read(bais);
             Document docTransformHtml = this.transformDocument(docXml, xslPath);
             htmlString = this.doc2String(docTransformHtml);
             System.out.println("getHtmlString(...)执行成功!\n");
@@ -66,23 +76,19 @@ public class XSLTransformation {
      * @return
      */
     private Document transformDocument(Document docXml, String xslPath) {
-
         System.out.println("开始执行 transformDocument(...)方法");
-        TransformerFactory factory = TransformerFactory.newInstance();
-        Document transformerDoc = null;
-
-        try {
-            System.out.println("transf:" + xslPath);
-            Transformer transformer = factory.newTransformer(new StreamSource(xslPath));
-            DocumentSource docSource = new DocumentSource(docXml);
-            DocumentResult docResult = new DocumentResult();
-            transformer.transform(docSource, docResult);
-            transformerDoc = docResult.getDocument();
-            System.out.println("transformDocument(...)方法执行成功");
-
-        } catch (Exception e) {
+        TransformerFactory factory = TransformerFactory.newInstance();  
+        Document transformerDoc = null;  
+        try {  
+            Transformer transformer = factory.newTransformer(new StreamSource(xslPath));  
+            DocumentSource docSource = new DocumentSource(docXml);  
+            DocumentResult docResult = new DocumentResult();  
+            transformer.transform(docSource, docResult);  
+            transformerDoc = docResult.getDocument();  
+            System.out.println("transformDocument(...)方法执行成功"); 
+        } catch (Exception e) {  
             System.out.println("transformDocument(...)方法执行失败,提示信息[" + e.getMessage() + "]");
-        }
+        }  
         return transformerDoc;
     }
 
@@ -102,7 +108,7 @@ public class XSLTransformation {
         outputFormat.setXHTML(true);
         HTMLWriter htmlWriter = new HTMLWriter(strWriter, outputFormat);
         outputFormat.setExpandEmptyElements(false);
-        
+
         try {
             htmlWriter.write(docTransformHtml);
             htmlWriter.flush();

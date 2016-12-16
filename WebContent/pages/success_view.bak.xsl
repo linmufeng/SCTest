@@ -5,7 +5,7 @@
 		<html>
 			<head>
 				<title>
-					<xsl:value-of select="view/header" />
+					<xsl:value-of select="view/header/title" />
 				</title>
 			</head>
 			<body>
