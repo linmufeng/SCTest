@@ -9,9 +9,9 @@
 			<method>log</method>
 		</class>
 	</interceptor>
-	<!-- Other interceptors  -->
-	
-	<!-- Action部分  -->
+	<!-- Other interceptors -->
+
+	<!-- Action部分 -->
 	<action>
 		<name>login</name>
 		<class>
@@ -29,9 +29,10 @@
 		<result>
 			<name>fail</name>
 			<type>forward</type>
+			<value>pages/success_view.xml</value>
+			<!--  -->
 			<!-- <value>pages/login_fail.jsp</value> -->
-            <value>pages/success_view.xml</value>
-			
+
 		</result>
 	</action>
 	<action>
@@ -40,7 +41,7 @@
 			<name>com.kinlonho.servlet.RegisterAction</name>
 			<method>register</method>
 		</class>
-		<!-- other results  -->
+		<!-- other results -->
 	</action>
 	<!-- other results -->
 </action-controller>

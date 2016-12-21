@@ -1,4 +1,4 @@
-package com.kinlonho.impl;
+package com.kinlonho.dao.impl;
 
 import java.io.File;
 import java.sql.Time;

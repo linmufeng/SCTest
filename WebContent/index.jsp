@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	登录失败,请重新登录!
+
 </body>
 </html>

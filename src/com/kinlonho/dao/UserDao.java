@@ -1,27 +1,49 @@
 package com.kinlonho.dao;
 
 import com.kinlonho.bean.UserBean;
+import com.kinlonho.util.DispTest;
 
 
-/** 
-* @author 王聪 E-mail: 2441413514@qq.com
-* @version 创建时间：2016年12月1日 上午12:18:34 
-* 
-*/
-public class UserDao {
 
-		// 模拟登陆
-		public UserBean login(UserBean user){
-			if ("wangcong".equals(user.getName()) && "123456".equals(user.getPassword()) ){
-				// 登陆成功
-				return user;
-			}
-			// 登陆失败
-			return null;
-		}
-		
-		// 模拟注册
-		public void register(UserBean user) {
-			System.out.println("注册成功：用户，" + user.getName());
-		}
+public interface UserDao {
+
+    // 登陆
+    public UserBean login(UserBean user);
+
+    // 模拟注册
+    public void register(UserBean user);
+    
+    /**
+     * 负责根据参数查询对象表记录
+     * 
+     * @param userName
+     * @return
+     */
+
+    public UserBean queryUser(String userName);
+
+    /**
+     * 负责根据参数增加对象表记录
+     * 
+     * @param u
+     * @return
+     */
+    public boolean insertUser(UserBean u);
+
+    /**
+     * 负责根据参数修改对象表记录
+     * 
+     * @param u
+     * @return
+     */
+    public boolean updateUser(UserBean u);
+
+    /**
+     * 负责根据参数删除对象表记录
+     * 
+     * @param u
+     * @return
+     */
+    public boolean deleteUser(UserBean u);
+
 }

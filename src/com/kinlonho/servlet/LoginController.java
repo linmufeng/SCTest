@@ -1,15 +1,26 @@
 package com.kinlonho.servlet;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.transform.Source;
+import javax.xml.transform.Templates;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import com.kinlonho.bean.UserBean;
 import com.kinlonho.framework.bean.ActionMapping;
@@ -18,7 +29,7 @@ import com.kinlonho.framework.bean.Result;
 import com.kinlonho.framework.interceptor.Action;
 import com.kinlonho.framework.interceptor.ActionProxy;
 import com.kinlonho.framework.interceptor.ActionProxyFactory;
-import com.kinlonho.util.XSLTransformation;
+import com.sun.org.apache.xml.internal.security.transforms.TransformationException;
 
 /**
  * Servlet implementation class LoginController
@@ -42,8 +53,8 @@ public class LoginController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // TODO Auto-generated method stub
-
         try {
+            
             // 1.获取请求uri,得到请求路径名称 如login
             String uri = request.getRequestURI();
             // 得到login
@@ -64,14 +75,8 @@ public class LoginController extends HttpServlet {
             Class<?> clazz = Class.forName(className);
             Object obj = clazz.newInstance();
 
-            // Method m = clazz.getDeclaredMethod(method,
-            // HttpServletRequest.class,HttpServletResponse.class);//何金龙取消此句：无意义
-            // 调用方法后返回标记
-            // String returnFlag = (String)m.invoke(obj, request,response);
-            // ActionProxy handler = new ActionProxy(obj, null, method, method,
-            // false);
-            ActionProxy handler = ActionProxyFactory.createActionProxy(obj, 
-                    actionMapping.getInterceptors(), actionName,method, false);//生成代理
+            ActionProxy handler = ActionProxyFactory.createActionProxy(obj, actionMapping.getInterceptors(), actionName,
+                    method, false);// 生成代理
             Action proxyObj = (Action) Proxy.newProxyInstance(obj.getClass().getClassLoader(),
                     obj.getClass().getInterfaces(), handler);
             // String returnFlag = (String)m.invoke(proxyObj,
@@ -83,20 +88,19 @@ public class LoginController extends HttpServlet {
             Result result = actionMapping.getResults().get(returnFlag);
             String type = result.getType(); // 类型
             String page = result.getValue(); // 页面
-            String htmlString = null;
+            System.out.println("type:" + type);
+            System.out.println("page:" + page);
             // 跳转页面
             if ("redirect".equals(type)) { // 重定向类型
                 response.sendRedirect(request.getContextPath() + "/" + page);
             } else { // 转发类型
-                if (page.endsWith(".xml")){//如果是xml文件
-                    XSLTransformation xslTransf = new XSLTransformation();
-//                    String xmlPath = page;                  //转发过来的xml就是需要转换的xml
-                    String xmlPath = "/success_view.xml";
-                    String xslPath = "http://localhost:8080/SCTest/pages/success_view.xsl";
-                    htmlString = xslTransf.getHtmlString(xmlPath, xslPath);
-                    System.out.println("str==" + htmlString); 
+                if (page.endsWith(".xml")) {// 如果是xml文件
+                    // String xmlPath = page; //转发过来的xml就是需要转换的xml
+//                    String xmlPath = page;
+                    String xmlPath = "pages/success_view.xml";
+                    String xslPath = "pages/success_view.xsl";
+                    xml2html(xmlPath, xslPath, request, response);
                 }
-                //通过htmlString生成一个html文件，待实现
                 request.getRequestDispatcher(page).forward(request, response);
             }
         } catch (Exception e) {
@@ -113,6 +117,33 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException {
         // TODO Auto-generated method stub
         doGet(request, response);
+    }
+
+    /**
+     * @info 将xml通过xsl转换成html并将result直接传给用户
+     * @param xmlPath
+     * @param xslPath
+     * @param req
+     * @param resp
+     */
+    private void xml2html(String xmlPath, String xslPath, HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            String rootPath = req.getSession().getServletContext().getRealPath("/");
+            TransformerFactory factory = TransformerFactory.newInstance();
+            Templates template = factory.newTemplates(new StreamSource(new FileInputStream(rootPath + xslPath)));
+            Transformer xformer = template.newTransformer();
+            Source source = new StreamSource(new FileInputStream(rootPath + xmlPath));
+            StreamResult result = new StreamResult(resp.getOutputStream());
+            xformer.transform(source, result);
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            e.printStackTrace();
+        }
     }
 
 }

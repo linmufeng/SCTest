@@ -39,9 +39,9 @@
 					</table>
 					<div>
 						<button>
-							<td>
-								<xsl:value-of select="bottonview/label" />
-							</td>
+							<xsl:for-each select="view/body/form/buttonview[label='Logout']">
+								<xsl:value-of select="label" />
+							</xsl:for-each>
 						</button>
 					</div>
 				</form>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="http://localhost:8080/SCTest/pages/success_view.xsl"?>
+<view>
+    <header>
+        <title>a view in MVC</title>
+    </header>
+    <body>
+        <form>
+            <name>laginForm</name>
+            <action>login.action</action>
+            <method>post</method>
+            <textview>
+                <name>lblUserName</name>
+                <label>User Name:</label>
+            </textview>
+            <inputview>
+                <name>inputUserName</name>
+                <value>${username}</value>
+            </inputview>
+            <textview>
+                <name>lblPassword</name>
+                <label>Password:</label>
+            </textview>
+            <inputview>
+                <name>inputPassword</name>
+                <value>${psw}</value>
+            </inputview>
+            <buttonView>
+                <name>btnLogin</name>
+                <label>Login</label>
+            </buttonView>
+            
+        </form>
+    </body>
+</view>

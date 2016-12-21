@@ -30,13 +30,14 @@ public class LoginAction implements Action{
 		Object uri = null;
 
 		// 1. 获取请求数据，封装
-		String name = request.getParameter("name");
+		String name = request.getParameter("username");
 		String password = request.getParameter("password");
 		UserBean user = new UserBean();
 		user.setName(name);
 		user.setPassword(password);
 
 		// 2. 调用Service
+		System.out.println("网页传过来的用户名：" + name);
 		UserService userService = new UserService();
 		UserBean userInfo = userService.login(user);
 		// 3. 跳转

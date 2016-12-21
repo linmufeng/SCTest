@@ -2,6 +2,8 @@ package com.kinlonho.service;
 
 import com.kinlonho.bean.UserBean;
 import com.kinlonho.dao.UserDao;
+import com.kinlonho.dao.impl.UserDaoBaseImpl;
+import com.kinlonho.util.DispTest;
 
 
 /** 
@@ -10,10 +12,11 @@ import com.kinlonho.dao.UserDao;
 * 
 */
 public class UserService {
-	private UserDao ud = new UserDao();
+	private UserDao ud = new UserDaoBaseImpl();
 
 	// 模拟登陆
 	public UserBean login(UserBean user){
+	    System.out.println("进入UserService");
 		return ud.login(user);
 	}
 	

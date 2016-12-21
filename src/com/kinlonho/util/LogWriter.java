@@ -3,10 +3,10 @@ package com.kinlonho.util;
 import java.util.Date;
 
 import com.kinlonho.dao.LogWriterDao;
+import com.kinlonho.dao.impl.LogWriterDaoImpl;
 import com.kinlonho.framework.bean.LogInfo;
 import com.kinlonho.framework.interceptor.ActionInvocation;
 import com.kinlonho.framework.interceptor.Interceptor;
-import com.kinlonho.impl.LogWriterDaoImpl;
 
 /** 
 * @author 王聪 E-mail: 2441413514@qq.com

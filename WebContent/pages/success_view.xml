@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="http://localhost:8080/SCTest/pages/success_view.xsl"?>
 <view>
 	<header>
 		<title>a view in MVC</title>
@@ -11,17 +12,17 @@
 			<textview>
 				<name>userName</name>
 				<label>Login Name:</label>
-				<value>kinlon</value>
+				<value>admin</value>
 			</textview>
 			<textview>
 				<name>userAge</name>
 				<label>Age</label>
-				<value>23</value>
+				<value>0</value>
 			</textview>
-			<bottonView>
+			<buttonview>
 				<name>logoutButton</name>
 				<label>Logout</label>
-			</bottonView>
+			</buttonview>
 
 		</form>
 	</body>
