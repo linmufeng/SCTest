@@ -54,7 +54,7 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException {
         // TODO Auto-generated method stub
         try {
-            
+
             // 1.获取请求uri,得到请求路径名称 如login
             String uri = request.getRequestURI();
             // 得到login
@@ -96,17 +96,24 @@ public class LoginController extends HttpServlet {
             } else { // 转发类型
                 if (page.endsWith(".xml")) {// 如果是xml文件
                     // String xmlPath = page; //转发过来的xml就是需要转换的xml
-//                    String xmlPath = page;
+                    // String xmlPath = page;
                     String xmlPath = "pages/success_view.xml";
                     String xslPath = "pages/success_view.xsl";
                     xml2html(xmlPath, xslPath, request, response);
                 }
+
                 request.getRequestDispatcher(page).forward(request, response);
+                // return;
+                /*
+                 * 
+                 * 这个是错误是由于response多次提交或者是由于有页面显示后仍然含请求转向产生的，
+                 * 就是说程序在return之前就已经执行了跳转或者执行过response，之后遇到return的话，程序想再次执行跳转，
+                 * 也就是重定向，这时功能也许会实现了，
+                 */
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     /**

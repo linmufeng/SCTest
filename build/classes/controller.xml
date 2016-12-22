@@ -24,7 +24,7 @@
 		<result>
 			<name>success</name>
 			<type>forward</type>
-			<value>pages/success_view.xml</value>
+			<value>pages/success_view.jsp</value>
 		</result>
 		<result>
 			<name>fail</name>

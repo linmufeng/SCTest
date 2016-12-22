@@ -46,7 +46,9 @@ public class LoginAction implements Action{
 			uri = "fail";  
 		} else {
 			// 登陆成功
-			request.getSession().setAttribute("userInfo", userInfo);
+//			request.getSession().setAttribute("userInfo", userInfo);
+            request.setAttribute("userName", userInfo.getName());
+            request.setAttribute("age", userInfo.getAge());
 			// 返回uri
 			uri = "success"; 
 		}
