@@ -45,6 +45,7 @@ public class UserDaoBaseImpl implements UserDao {
             }else{
                 //密码不同
                 test.print("出现错误，请检查密码");
+                dbUser = null;
             }
         }
         return dbUser;

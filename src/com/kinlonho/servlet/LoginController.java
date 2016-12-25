@@ -103,13 +103,6 @@ public class LoginController extends HttpServlet {
                 }
 
                 request.getRequestDispatcher(page).forward(request, response);
-                // return;
-                /*
-                 * 
-                 * 这个是错误是由于response多次提交或者是由于有页面显示后仍然含请求转向产生的，
-                 * 就是说程序在return之前就已经执行了跳转或者执行过response，之后遇到return的话，程序想再次执行跳转，
-                 * 也就是重定向，这时功能也许会实现了，
-                 */
             }
         } catch (Exception e) {
             e.printStackTrace();
